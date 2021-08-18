@@ -24,12 +24,14 @@ extern "C" {
 #define VIRTIO_ID_RPMSG      0x07UL /* remote processor messaging */
 #define VIRTIO_ID_SCSI       0x08UL
 #define VIRTIO_ID_9P         0x09UL
+#define VIRTIO_ID_SCMI       0x20UL
 #define VIRTIO_DEV_ANY_ID    (-1)UL
 
 /* Status byte for guest to report progress. */
 #define VIRTIO_CONFIG_STATUS_ACK       0x01
 #define VIRTIO_CONFIG_STATUS_DRIVER    0x02
 #define VIRTIO_CONFIG_STATUS_DRIVER_OK 0x04
+#define VIRTIO_CONFIG_FEATURES_OK 0x08
 #define VIRTIO_CONFIG_STATUS_NEEDS_RESET 0x40
 #define VIRTIO_CONFIG_STATUS_FAILED    0x80
 
@@ -54,6 +56,7 @@ struct virtio_device_id {
  */
 #define VIRTIO_F_BAD_FEATURE (1 << 30)
 
+#define VIRTIO_F_VERSION_1 32
 /*
  * Some VirtIO feature bits (currently bits 28 through 31) are
  * reserved for the transport being used (eg. virtio_ring), the
