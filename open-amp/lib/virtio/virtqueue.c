@@ -208,9 +208,11 @@ void *virtqueue_get_buffer(struct virtqueue *vq, uint32_t *len, uint16_t *idx)
 	if (len)
 		*len = uep->len;
 
+	/* This is the ptr to the user's buffer */
+	cookie = vq->vq_descx[desc_idx].cookie;
+
 	vq_ring_free_chain(vq, desc_idx);
 
-	cookie = vq->vq_descx[desc_idx].cookie;
 	vq->vq_descx[desc_idx].cookie = NULL;
 
 	if (idx)
@@ -283,6 +285,36 @@ void *virtqueue_get_available_buffer(struct virtqueue *vq, uint16_t *avail_idx,
 	*len = vq->vq_ring.desc[*avail_idx].len;
 
 	VQUEUE_IDLE(vq);
+
+	return buffer;
+}
+
+uint16_t virtqueue_buffer_writable(struct virtqueue *vq, uint16_t avail_idx)
+{
+	uint16_t flags;
+
+	flags = vq->vq_ring.desc[avail_idx].flags;
+
+	return !!(flags & VRING_DESC_F_WRITE);
+
+}
+
+void *virtqueue_get_next_buffer(struct virtqueue *vq, uint16_t *avail_idx,
+				     uint32_t *len)
+{
+	uint16_t flags;
+	void *buffer;
+
+	flags = vq->vq_ring.desc[*avail_idx].flags;
+
+	if (!(flags & VRING_DESC_F_NEXT))
+		return NULL;
+
+	*avail_idx = vq->vq_ring.desc[*avail_idx].next;
+
+	buffer = virtqueue_phys_to_virt(vq, vq->vq_ring.desc[*avail_idx].addr);
+	*len = vq->vq_ring.desc[*avail_idx].len;
+
 
 	return buffer;
 }

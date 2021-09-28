@@ -189,6 +189,10 @@ void *virtqueue_get_buffer(struct virtqueue *vq, uint32_t *len, uint16_t *idx);
 
 void *virtqueue_get_available_buffer(struct virtqueue *vq, uint16_t *avail_idx,
 				     uint32_t *len);
+uint16_t virtqueue_buffer_writable(struct virtqueue *vq, uint16_t avail_idx);
+
+void *virtqueue_get_next_buffer(struct virtqueue *vq, uint16_t *avail_idx,
+				     uint32_t *len);
 
 int virtqueue_add_consumed_buffer(struct virtqueue *vq, uint16_t head_idx,
 				  uint32_t len);
