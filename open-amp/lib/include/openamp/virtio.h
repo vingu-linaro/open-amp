@@ -42,6 +42,7 @@ extern "C" {
 struct virtio_device_id {
 	uint32_t device;
 	uint32_t vendor;
+	uint32_t version;
 };
 
 /*
