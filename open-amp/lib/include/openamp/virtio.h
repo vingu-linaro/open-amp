@@ -58,6 +58,7 @@ struct virtio_device_id {
 #define VIRTIO_F_BAD_FEATURE (1 << 30)
 
 #define VIRTIO_F_VERSION_1 32
+
 /*
  * Some VirtIO feature bits (currently bits 28 through 31) are
  * reserved for the transport being used (eg. virtio_ring), the
@@ -65,6 +66,12 @@ struct virtio_device_id {
  */
 #define VIRTIO_TRANSPORT_F_START      28
 #define VIRTIO_TRANSPORT_F_END        32
+
+#define VIRTIO_F_ACCESS_PLATFORM	33
+
+/* packed virtqueue layout. */
+#define VIRTIO_F_RING_PACKED		34
+
 
 typedef void (*virtio_dev_reset_cb)(struct virtio_device *vdev);
 
